@@ -36,17 +36,21 @@ namespace Modul.Repositories
 
         public async Task<bool> DeleteProductAsync(int id)
         {
-            var product = await GetProductAsync(id);
-            _dbContext.Products.Remove(product!);
-            await _dbContext.SaveChangesAsync();
-            if (product != null)
+            var entity = await _dbContext.Products.FirstOrDefaultAsync(f => f.ProductID == id);
+            if (entity == null)
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            _dbContext.Entry(entity).State = EntityState.Deleted;
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<IEnumerable<ProductEntity?>> GetProductByCategoryAsync(string category)
+        {
+            return await _dbContext.Products.Where(w => w.Category!.CategoryName == category).ToListAsync();
         }
 
         public async Task<ProductEntity?> GetProductAsync(int id)

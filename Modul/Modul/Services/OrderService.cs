@@ -1,28 +1,98 @@
-﻿using Modul.Models;
+﻿using Microsoft.Extensions.Logging;
+using Modul.Models;
+using Modul.Repositories.Abstractions;
 using Modul.Services.Abstractions;
 
 namespace Modul.Services
 {
-    public class OrderService : IOrderService
+    public class OrderService : BaseDataService<ApplicationDbContext>, IOrderService
     {
-        public Task<bool> AddOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
+        private readonly IOrderRepository _orderRepository;
+        private readonly ILogger<CustomerService> _loggerService;
+
+        public OrderService(
+            IDbContextWrapper<ApplicationDbContext> dbContextWrapper,
+            ILogger<BaseDataService<ApplicationDbContext>> logger,
+            IOrderRepository orderRepository,
+            ILogger<CustomerService> loggerService)
+                : base(dbContextWrapper, logger)
         {
-            throw new NotImplementedException();
+            _orderRepository = orderRepository;
+            _loggerService = loggerService;
         }
 
-        public Task<bool> DeleteOrderAsync(int id)
+        public async Task<bool> AddOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
         {
-            throw new NotImplementedException();
+            var status = await _orderRepository.AddOrderAsync(id, orderNumber, orderTime, customerID, paymentID, shipperID);
+            _loggerService.LogInformation($"Created order with Id = {id}");
+            return status;
         }
 
-        public Task<Order?> GetOrderAsync(int id)
+        public async Task<bool> DeleteOrderAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _orderRepository.DeleteOrderAsync(id);
+
+            if (result == false)
+            {
+                _loggerService.LogWarning($"Not founded order with Id = {id}");
+            }
+            else
+            {
+                _loggerService.LogWarning($"Order with Id = {id} was deleted");
+            }
+
+            return result;
         }
 
-        public Task<bool> UpdateOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
+        public async Task<Order?> GetOrderAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _orderRepository.GetOrderAsync(id);
+
+            if (result == null)
+            {
+                _loggerService.LogWarning($"Not founded order with Id = {id}");
+                return null!;
+            }
+
+            return new Order
+            {
+                OrderID = result.OrderID,
+                CustomerID = result.CustomerID,
+                OrderNumber = result.OrderNumber,
+                OrderDate = result.OrderDate,
+                ShipperID = result.ShipperID,
+                PaymentID = result.PaymentID
+            };
+        }
+
+        public async Task<IEnumerable<Order>?> GetOrderByCustomerIdAsync(int id)
+        {
+            var result = await _orderRepository.GetOrderByCustomerIdAsync(id);
+
+            if (result == null)
+            {
+                _loggerService.LogWarning($"Not founded order with Id = {id}");
+                return null!;
+            }
+
+            return result.Select(r => new Order()
+            {
+                OrderID = r.OrderID,
+                Products = (List<Product>)r.Products.Select(s => new Product()
+                {
+                    ProductID = s.ProductID,
+                    CategoryID = s.CategoryID,
+                    ProductName = s.ProductName,
+                    SupplierID = s.SupplierID
+                })
+            }).ToList();
+        }
+
+        public async Task<bool> UpdateOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
+        {
+            var status = await _orderRepository.UpdateOrderAsync(id, orderNumber, orderTime, customerID, paymentID, shipperID);
+            _loggerService.LogInformation($"Updated order with Id = {id}");
+            return status;
         }
     }
 }

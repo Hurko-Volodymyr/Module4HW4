@@ -37,22 +37,36 @@ namespace Modul.Repositories
 
         public async Task<bool> DeleteCustomerAsync(int id)
         {
-            var customer = await GetCustomerAsync(id);
-            _dbContext.Customers.Remove(customer!);
-            await _dbContext.SaveChangesAsync();
-            if (customer != null)
+            var entity = await _dbContext.Customers.FirstOrDefaultAsync(f => f.CustomerID == id);
+            if (entity == null)
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            _dbContext.Entry(entity).State = EntityState.Deleted;
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<CustomerEntity?> GetCustomerAsync(int id)
         {
             return await _dbContext.Customers.FirstOrDefaultAsync(f => f.CustomerID == id);
+        }
+
+        public async Task<bool> UpdateAddressAsync(int id, string address)
+        {
+            var customer = await _dbContext.Customers.FirstOrDefaultAsync(f => f.CustomerID == id);
+            if (customer == null)
+            {
+                return false;
+            }
+
+            customer!.Address = address;
+            _dbContext.Entry(customer).CurrentValues.SetValues(customer);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<bool> UpdateCustomerAsync(int id, string firstName, string lastName, string adress, string city, string postalCode, string country, string phone)

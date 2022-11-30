@@ -7,6 +7,7 @@ namespace Modul.Repositories.Abstractions
         Task<bool> AddCustomerAsync(int id, string firstName, string lastName, string adress, string city, string postalCode, string country, string phone);
         Task<CustomerEntity?> GetCustomerAsync(int id);
         Task<bool> UpdateCustomerAsync(int id, string firstName, string lastName, string adress, string city, string postalCode, string country, string phone);
+        Task<bool> UpdateAddressAsync(int id, string adress);
         Task<bool> DeleteCustomerAsync(int id);
     }
 }

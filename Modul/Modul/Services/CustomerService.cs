@@ -39,9 +39,18 @@ namespace Modul.Services
             });
         }
 
-        public Task<bool> DeleteCustomerAsync(int id)
+        public async Task<bool> DeleteCustomerAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _customerRepository.DeleteCustomerAsync(id);
+
+            if (!result)
+            {
+                _loggerService.LogWarning($"Not founded customer with Id = {id} for delete");
+                return false;
+            }
+
+            _loggerService.LogInformation($"Customer with Id = {id} was deleted");
+            return true;
         }
 
         public async Task<Customer?> GetCustomerAsync(int id)
@@ -66,9 +75,32 @@ namespace Modul.Services
             };
         }
 
-        public Task<bool> UpdateCustomerAsync(int id, string firstName, string lastName, string adress, string city, string postalCode, string country, string phone)
+        public async Task<bool> UpdateAddressAsync(int id, string address)
         {
-            throw new NotImplementedException();
+            var result = await _customerRepository.UpdateAddressAsync(id, address);
+
+            if (!result)
+            {
+                _loggerService.LogWarning($"Not founded customer with Id = {id} for update");
+                return false;
+            }
+
+            _loggerService.LogInformation($"Customers address with Id = {id} was updated");
+            return true;
+        }
+
+        public async Task<bool> UpdateCustomerAsync(int id, string firstName, string lastName, string adress, string city, string postalCode, string country, string phone)
+        {
+            var result = await _customerRepository.UpdateCustomerAsync(id, firstName, lastName, adress, city, postalCode, country, phone);
+
+            if (!result)
+            {
+                _loggerService.LogWarning($"Not founded customer with Id = {id} for update");
+                return false;
+            }
+
+            _loggerService.LogInformation($"Customer with Id = {id} was updated");
+            return true;
         }
     }
 }

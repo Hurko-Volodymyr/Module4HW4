@@ -39,22 +39,26 @@ namespace Modul.Repositories
 
         public async Task<bool> DeleteOrderAsync(int id)
         {
-            var order = await GetOrderAsync(id);
-            _dbContext.Orders.Remove(order!);
-            await _dbContext.SaveChangesAsync();
-            if (order != null)
+            var entity = await _dbContext.Orders.FirstOrDefaultAsync(f => f.OrderID == id);
+            if (entity == null)
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            _dbContext.Entry(entity).State = EntityState.Deleted;
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<OrderEntity?> GetOrderAsync(int id)
         {
             return await _dbContext.Orders.FirstOrDefaultAsync(f => f.OrderID == id);
+        }
+
+        public async Task<IEnumerable<OrderEntity>?> GetOrderByCustomerIdAsync(int id)
+        {
+            return await _dbContext.Orders.Include(i => i.Products).Where(w => w.CustomerID == id).ToListAsync();
         }
 
         public async Task<bool> UpdateOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
