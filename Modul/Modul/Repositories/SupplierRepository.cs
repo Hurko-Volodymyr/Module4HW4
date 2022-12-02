@@ -5,7 +5,7 @@ namespace Modul.Repositories
 {
     public class SupplierRepository : ISupplierRepository
     {
-        public Task<int> CreateSupplierAsync(string companyName, string contactFName, string contactLName, string contactTitle, string address, string city)
+        public Task<int> AddSupplierAsync(string companyName, string contactFName, string contactLName, string contactTitle, string address, string city)
         {
             throw new NotImplementedException();
         }

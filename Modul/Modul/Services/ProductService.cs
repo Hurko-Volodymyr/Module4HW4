@@ -24,7 +24,7 @@ namespace Modul.Services
 
         public async Task<int> AddProductAsync(string name, string description, int categoryId, int supplierId)
         {
-            var id = await _productRepository.AddProductAsync(name, description, new List<Data.Entities.OrderDetailEntity>());
+            var id = await _productRepository.AddProductAsync(name, description);
             _loggerService.LogInformation($"Created product with Id = {id}");
             return id;
         }

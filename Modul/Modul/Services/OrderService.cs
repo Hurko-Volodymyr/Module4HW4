@@ -8,13 +8,13 @@ namespace Modul.Services
     public class OrderService : BaseDataService<ApplicationDbContext>, IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly ILogger<CustomerService> _loggerService;
+        private readonly ILogger<OrderService> _loggerService;
 
         public OrderService(
             IDbContextWrapper<ApplicationDbContext> dbContextWrapper,
             ILogger<BaseDataService<ApplicationDbContext>> logger,
             IOrderRepository orderRepository,
-            ILogger<CustomerService> loggerService)
+            ILogger<OrderService> loggerService)
                 : base(dbContextWrapper, logger)
         {
             _orderRepository = orderRepository;

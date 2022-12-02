@@ -15,7 +15,7 @@ namespace Modul.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task<int> AddProductAsync(string name, string description, List<OrderDetailEntity> items)
+        public async Task<int> AddProductAsync(string name, string description)
         {
             var product = await _dbContext.Products.AddAsync(new ProductEntity()
             {
@@ -24,12 +24,6 @@ namespace Modul.Repositories
                 CategoryID = 1,
                 SupplierID = 1
             });
-
-            await _dbContext.OrderDetails.AddRangeAsync(items.Select(s => new OrderDetailEntity()
-            {
-                OrderID = s.OrderID,
-                ProductID = s.ProductID
-            }));
 
             await _dbContext.SaveChangesAsync();
 

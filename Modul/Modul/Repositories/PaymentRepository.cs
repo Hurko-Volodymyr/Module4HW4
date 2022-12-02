@@ -1,28 +1,66 @@
-﻿using Modul.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Modul.Data.Entities;
 using Modul.Repositories.Abstractions;
+using Modul.Services.Abstractions;
 
 namespace Modul.Repositories
 {
     public class PaymentRepository : IPaymentRepository
     {
-        public Task<int> CreatePaymentAsync(string paymentType, string allowed)
+        private readonly ApplicationDbContext _dbContext;
+
+        public PaymentRepository(
+            IDbContextWrapper<ApplicationDbContext> dbContextWrapper)
         {
-            throw new NotImplementedException();
+            _dbContext = dbContextWrapper.DbContext;
         }
 
-        public Task<bool> DeletePaymentAsync(int id)
+        public async Task<int> AddPaymentAsync(string paymentType, string allowed)
         {
-            throw new NotImplementedException();
+            var payment = await _dbContext.Payments.AddAsync(new PaymentEntity()
+            {
+                PaymentType = paymentType,
+                Allowed = allowed
+            });
+
+            await _dbContext.SaveChangesAsync();
+            return payment.Entity.PaymentID;
         }
 
-        public Task<PaymentEntity?> GetPaymentAsync(int id)
+        public async Task<bool> DeletePaymentAsync(int id)
         {
-            throw new NotImplementedException();
+            var category = await _dbContext.Payments.FirstOrDefaultAsync(f => f.PaymentID == id);
+            if (category == null)
+            {
+                return false;
+            }
+
+            _dbContext.Entry(category).State = EntityState.Deleted;
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
 
-        public Task<PaymentEntity> UpdatePaymentAsync(int id, string paymentType, string allowed)
+        public async Task<PaymentEntity?> GetPaymentAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Payments.FirstOrDefaultAsync(f => f.PaymentID == id);
+        }
+
+        public async Task<bool> UpdatePaymentAsync(int id, string paymentType, string allowed)
+        {
+            var category = await _dbContext.Payments.FirstOrDefaultAsync(f => f.PaymentID == id);
+            if (category == null)
+            {
+                return false;
+            }
+
+            category!.PaymentType = paymentType;
+            category!.Allowed = allowed;
+
+            _dbContext.Entry(category).CurrentValues.SetValues(category);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

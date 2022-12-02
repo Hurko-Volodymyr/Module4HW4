@@ -1,12 +1,14 @@
-﻿namespace Modul.Models
+﻿using Modul.Data.Entities;
+
+namespace Modul.Models
 {
     public class Category
     {
         public int CategoryID { get; set; }
-        public string CategoryName { get; set; } = null!;
-        public string Description { get; set; } = null!;
-        public string Picture { get; set; } = null!;
-        public string Active { get; set; } = null!;
-        public List<Product> Categories { get; set; } = new List<Product>();
+        public string? CategoryName { get; set; }
+        public string? Description { get; set; }
+        public string? Picture { get; set; }
+        public string? Active { get; set; }
+        public List<ProductEntity>? Products { get; set; } = new List<ProductEntity>();
     }
 }

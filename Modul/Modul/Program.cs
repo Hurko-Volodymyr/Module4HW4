@@ -40,12 +40,23 @@ namespace Modul
             serviceCollection
                 .AddTransient<ICustomerService, CustomerService>()
                 .AddLogging(configure => configure.AddConsole())
+                .AddTransient<INotificationService, NotificationService>()
                 .AddTransient<ICustomerRepository, CustomerRepository>()
                 .AddTransient<IOrderRepository, OrderRepository>()
                 .AddTransient<IProductRepository, ProductRepository>()
-                .AddTransient<INotificationService, NotificationService>()
+                .AddTransient<ICategoryRepository, CategoryRepository>()
+                .AddTransient<IOrderDetailsRepository, OrderDetailsRepository>()
+                .AddTransient<IPaymentRepository, PaymentRepository>()
+                .AddTransient<IShipperRepository, ShipperRepository>()
+                .AddTransient<ISupplierRepository, SupplierRepository>()
                 .AddTransient<IOrderService, OrderService>()
                 .AddTransient<IProductService, ProductService>()
+                .AddTransient<ICategoryService, CategoryService>()
+                .AddTransient<ICustomerService, CustomerService>()
+                .AddTransient<IOrderDetailsService, OrderDetailsServices>()
+                .AddTransient<IPaymentService, PaymentService>()
+                .AddTransient<IShipperService, ShipperService>()
+                .AddTransient<ISupplierService, SuppliersService>()
                 .AddTransient<App>();
         }
     }

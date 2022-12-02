@@ -5,7 +5,7 @@ namespace Modul.Repositories
 {
     public class ShipperRepository : IShipperRepository
     {
-        public Task<int> CreateShipperAsync(string companyName, string phone)
+        public Task<int> AddShipperAsync(string companyName, string phone)
         {
             throw new NotImplementedException();
         }
