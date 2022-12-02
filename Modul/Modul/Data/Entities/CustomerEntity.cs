@@ -10,6 +10,6 @@
         public string PostalCode { get; set; } = null!;
         public string Country { get; set; } = null!;
         public string Phone { get; set; } = null!;
-        public List<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
+        public List<OrderEntity>? Orders { get; set; } = new List<OrderEntity>();
     }
 }

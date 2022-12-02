@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Modul.Data.Entities;
-using Modul.Models;
 using Modul.Repositories.Abstractions;
 using Modul.Services.Abstractions;
 
@@ -16,16 +15,21 @@ namespace Modul.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task<int> AddProductAsync(string name, string description, int category, int supplier)
+        public async Task<int> AddProductAsync(string name, string description, List<OrderDetailEntity> items)
         {
             var product = await _dbContext.Products.AddAsync(new ProductEntity()
             {
                 ProductName = name,
                 ProductDescription = description,
-                Products = new List<OrderDetailEntity>(),
-                CategoryID = category,
-                SupplierID = supplier
+                CategoryID = 1,
+                SupplierID = 1
             });
+
+            await _dbContext.OrderDetails.AddRangeAsync(items.Select(s => new OrderDetailEntity()
+            {
+                OrderID = s.OrderID,
+                ProductID = s.ProductID
+            }));
 
             await _dbContext.SaveChangesAsync();
 
@@ -56,7 +60,7 @@ namespace Modul.Repositories
             return await _dbContext.Products.FirstOrDefaultAsync(f => f.ProductID == id);
         }
 
-        public async Task<bool> UpdateProductAsync(int id, string name, string description, int categoryId, int supplierId)
+        public async Task<bool> UpdateProductAsync(int id, string name, string description)
         {
             var product = await _dbContext.Products.FirstOrDefaultAsync(f => f.ProductID == id);
             if (product == null)

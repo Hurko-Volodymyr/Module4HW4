@@ -59,9 +59,7 @@ namespace Modul.Services
                 OrderID = result.OrderID,
                 CustomerID = result.CustomerID,
                 OrderNumber = result.OrderNumber,
-                OrderDate = result.OrderDate,
-                ShipperID = result.ShipperID,
-                PaymentID = result.PaymentID
+                OrderDate = result.OrderDate
             };
         }
 

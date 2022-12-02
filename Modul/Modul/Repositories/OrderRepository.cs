@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Modul.Data.Entities;
-using Modul.Models;
 using Modul.Repositories.Abstractions;
 using Modul.Services.Abstractions;
 
