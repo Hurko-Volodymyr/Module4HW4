@@ -1,28 +1,67 @@
-﻿using Modul.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Modul.Data.Entities;
 using Modul.Repositories.Abstractions;
+using Modul.Services.Abstractions;
 
 namespace Modul.Repositories
 {
     public class ShipperRepository : IShipperRepository
     {
-        public Task<int> AddShipperAsync(string companyName, string phone)
+        private readonly ApplicationDbContext _dbContext;
+
+        public ShipperRepository(
+            IDbContextWrapper<ApplicationDbContext> dbContextWrapper)
         {
-            throw new NotImplementedException();
+            _dbContext = dbContextWrapper.DbContext;
         }
 
-        public Task<bool> DeleteShipperAsync(int id)
+        public async Task<int> AddShipperAsync(string companyName, string phone)
         {
-            throw new NotImplementedException();
+            var shipper = await _dbContext.Shippers.AddAsync(new ShipperEntity()
+            {
+                CompanyName = companyName,
+                Phone = phone,
+                Orders = new List<OrderEntity>()
+            });
+
+            await _dbContext.SaveChangesAsync();
+            return shipper.Entity.ShipperID;
         }
 
-        public Task<ShipperEntity?> GetShipperAsync(int id)
+        public async Task<bool> DeleteShipperAsync(int id)
         {
-            throw new NotImplementedException();
+            var shipper = await _dbContext.Shippers.FirstOrDefaultAsync(f => f.ShipperID == id);
+            if (shipper == null)
+            {
+                return false;
+            }
+
+            _dbContext.Entry(shipper).State = EntityState.Deleted;
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
 
-        public Task<bool> UpdateShipperAsync(int id, string companyName, string phone)
+        public async Task<ShipperEntity?> GetShipperAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Shippers.FirstOrDefaultAsync(f => f.ShipperID == id);
+        }
+
+        public async Task<bool> UpdateShipperAsync(int id, string companyName, string phone)
+        {
+            var shipper = await _dbContext.Shippers.FirstOrDefaultAsync(f => f.ShipperID == id);
+            if (shipper == null)
+            {
+                return false;
+            }
+
+            shipper!.CompanyName = companyName;
+            shipper!.Phone = phone;
+
+            _dbContext.Entry(shipper).CurrentValues.SetValues(shipper);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

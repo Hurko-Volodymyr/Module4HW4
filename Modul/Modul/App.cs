@@ -52,6 +52,11 @@ namespace Modul
             await _paymentService.GetPaymentAsync(1);
             await _paymentService.DeletePaymentAsync(1);
 
+            await _shipperService.AddShipperAsync("Arasaka", "+56363..");
+            await _shipperService.UpdateShipperAsync(1, "Militech", "+56363..");
+            await _shipperService.GetShipperAsync(1);
+            await _shipperService.DeleteShipperAsync(1);
+
             // await _productService.AddProductAsync("tea", "romashka", 1, 1);
             // await _productService.AddProductAsync("tea", "gold", 1, 2);
             // await _productService.AddProductAsync("tea", "green", 1, 3);
