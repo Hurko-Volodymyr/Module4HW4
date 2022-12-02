@@ -31,7 +31,7 @@ namespace Modul.Services
             return await ExecuteSafeAsync(async () =>
             {
                 var id = await _customerRepository.AddCustomerAsync(firstName, lastName, adress, city, postalCode, country, phone);
-                _loggerService.LogInformation($"Created user with Id = {id}");
+                _loggerService.LogInformation($"Created customer with Id = {id}");
                 var notifyMassage = "registration was successful";
                 var notifyTo = "user@gmail.com";
                 _notificationService.Notify(NotifyType.Email, notifyMassage, notifyTo);
@@ -59,7 +59,7 @@ namespace Modul.Services
 
             if (customer == null)
             {
-                _loggerService.LogWarning($"Not founded user with Id = {id}");
+                _loggerService.LogWarning($"Not founded customer with Id = {id}");
                 return null!;
             }
 

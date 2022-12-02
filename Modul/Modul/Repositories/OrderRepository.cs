@@ -20,7 +20,7 @@ namespace Modul.Repositories
             var order = new OrderEntity()
             {
                 OrderNumber = orderNumber,
-                OrderDate = orderTime,
+                OrderDate = orderTime.ToUniversalTime(),
                 CustomerID = customerID,
                 PaymentID = paymentID,
                 ShipperID = shipperID

@@ -16,18 +16,20 @@ namespace Modul.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task<int> AddProductAsync(string name, string description)
+        public async Task<int> AddProductAsync(string name, string description, int category, int supplier)
         {
-            var product = new ProductEntity()
+            var product = await _dbContext.Products.AddAsync(new ProductEntity()
             {
                 ProductName = name,
-                ProductDescription = description
-            };
+                ProductDescription = description,
+                Products = new List<OrderDetailEntity>(),
+                CategoryID = category,
+                SupplierID = supplier
+            });
 
-            var result = await _dbContext.Products.AddAsync(product);
             await _dbContext.SaveChangesAsync();
 
-            return result.Entity.ProductID;
+            return product.Entity.ProductID;
         }
 
         public async Task<bool> DeleteProductAsync(int id)
@@ -54,7 +56,7 @@ namespace Modul.Repositories
             return await _dbContext.Products.FirstOrDefaultAsync(f => f.ProductID == id);
         }
 
-        public async Task<bool> UpdateProductAsync(int id, string name, string description)
+        public async Task<bool> UpdateProductAsync(int id, string name, string description, int categoryId, int supplierId)
         {
             var product = await _dbContext.Products.FirstOrDefaultAsync(f => f.ProductID == id);
             if (product == null)

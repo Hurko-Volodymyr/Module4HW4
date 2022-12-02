@@ -9,6 +9,6 @@
         public int? SupplierID { get; set; }
         public SupplierEntity? Supplier { get; set; }
         public CategoryEntity? Category { get; set; }
-        public List<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
+        public List<OrderDetailEntity>? Products { get; set; } = new List<OrderDetailEntity>();
     }
 }

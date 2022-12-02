@@ -9,7 +9,7 @@
         public string ContactTitle { get; set; } = null!;
         public string Address { get; set; } = null!;
         public string City { get; set; } = null!;
-        public int CustomerID { get; set; }
-        public List<ProductEntity> Products { get; set; } = new List<ProductEntity>();
+        public int? CustomerID { get; set; }
+        public List<ProductEntity>? Products { get; set; } = new List<ProductEntity>();
     }
 }

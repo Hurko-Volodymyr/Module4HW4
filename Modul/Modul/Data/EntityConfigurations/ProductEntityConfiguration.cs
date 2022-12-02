@@ -11,18 +11,16 @@ namespace Modul.Data.EntityConfigurations
             builder.HasKey(h => h.ProductID);
             builder.Property(p => p.ProductName).IsRequired();
             builder.Property(p => p.ProductDescription).IsRequired();
-            builder.Property(p => p.CategoryID).IsRequired();
-            builder.Property(p => p.SupplierID).IsRequired();
-
-            builder.HasOne(h => h.Supplier)
-                .WithMany(w => w.Products)
-                .HasForeignKey(h => h.ProductID)
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(h => h.Category)
-                .WithMany(w => w.Categories)
-                .HasForeignKey(h => h.CategoryID)
-                .OnDelete(DeleteBehavior.Cascade);
+                   .WithMany(w => w.Products)
+                   .HasForeignKey(h => h.CategoryID)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(h => h.Supplier)
+                   .WithMany(w => w.Products)
+                   .HasForeignKey(h => h.SupplierID)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

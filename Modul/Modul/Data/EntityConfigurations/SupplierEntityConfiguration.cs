@@ -15,7 +15,6 @@ namespace Modul.Data.EntityConfigurations
             builder.Property(p => p.ContactTitle).IsRequired();
             builder.Property(p => p.Address).IsRequired();
             builder.Property(p => p.City).IsRequired();
-            builder.Property(p => p.CustomerID).IsRequired();
         }
     }
 }

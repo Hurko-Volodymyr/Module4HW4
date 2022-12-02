@@ -81,9 +81,6 @@ namespace Modul.Services
                 Products = (List<Product>)r.Products.Select(s => new Product()
                 {
                     ProductID = s.ProductID,
-                    CategoryID = s.CategoryID,
-                    ProductName = s.ProductName,
-                    SupplierID = s.SupplierID
                 })
             }).ToList();
         }

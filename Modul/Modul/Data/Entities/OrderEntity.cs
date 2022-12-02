@@ -11,6 +11,6 @@
         public CustomerEntity? Customer { get; set; }
         public PaymentEntity? Payment { get; set; }
         public ShipperEntity? Shipper { get; set; }
-        public List<ProductEntity> Products { get; set; } = new List<ProductEntity>();
+        public List<OrderDetailEntity> Products { get; set; } = new List<OrderDetailEntity>();
     }
 }

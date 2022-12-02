@@ -22,9 +22,9 @@ namespace Modul.Services
             _loggerService = loggerService!;
         }
 
-        public async Task<int> AddProductAsync(string name, string description)
+        public async Task<int> AddProductAsync(string name, string description, int categoryId, int supplierId)
         {
-            var id = await _productRepository.AddProductAsync(name, description);
+            var id = await _productRepository.AddProductAsync(name, description, categoryId, supplierId);
             _loggerService.LogInformation($"Created product with Id = {id}");
             return id;
         }
@@ -52,9 +52,9 @@ namespace Modul.Services
             };
         }
 
-        public Task<bool> UpdateProductAsync(int id, string name, string description)
+        public Task<bool> UpdateProductAsync(int id, string name, string description, int categoryId, int supplierId)
         {
-            return ((IProductService)_productRepository).UpdateProductAsync(id, name, description);
+            return ((IProductService)_productRepository).UpdateProductAsync(id, name, description, categoryId, supplierId);
         }
     }
 }
