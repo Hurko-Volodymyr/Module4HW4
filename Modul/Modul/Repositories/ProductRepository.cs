@@ -60,10 +60,19 @@ namespace Modul.Repositories
 
         public async Task<bool> UpdateProductAsync(int id, string name, string description)
         {
-            var product = await GetProductAsync(id);
-            var result = await DeleteProductAsync(product!.ProductID);
-            await AddProductAsync(id, name, description);
-            return result;
+            var product = await _dbContext.Products.FirstOrDefaultAsync(f => f.ProductID == id);
+            if (product == null)
+            {
+                return false;
+            }
+
+            product!.ProductName = name;
+            product!.ProductDescription = description;
+
+            _dbContext.Entry(product).CurrentValues.SetValues(product);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

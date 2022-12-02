@@ -69,12 +69,26 @@ namespace Modul.Repositories
             return true;
         }
 
-        public async Task<bool> UpdateCustomerAsync(int id, string firstName, string lastName, string adress, string city, string postalCode, string country, string phone)
+        public async Task<bool> UpdateCustomerAsync(int id, string firstName, string lastName, string address, string city, string postalCode, string country, string phone)
         {
-            var customer = await GetCustomerAsync(id);
-            var result = await DeleteCustomerAsync(customer!.CustomerID);
-            await AddCustomerAsync(id, firstName, lastName, adress, city, postalCode, country, phone);
-            return result;
+            var customer = await _dbContext.Customers.FirstOrDefaultAsync(f => f.CustomerID == id);
+            if (customer == null)
+            {
+                return false;
+            }
+
+            customer!.FirstName = firstName;
+            customer!.LastName = lastName;
+            customer!.Address = address;
+            customer!.City = city;
+            customer!.PostalCode = postalCode;
+            customer!.Country = country;
+            customer!.Phone = phone;
+
+            _dbContext.Entry(customer).CurrentValues.SetValues(customer);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

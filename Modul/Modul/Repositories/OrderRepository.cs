@@ -63,10 +63,22 @@ namespace Modul.Repositories
 
         public async Task<bool> UpdateOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
         {
-            var order = await GetOrderAsync(id);
-            var result = await DeleteOrderAsync(order!.OrderID);
-            await AddOrderAsync(id, orderNumber, orderTime, customerID, paymentID, shipperID);
-            return result;
+            var order = await _dbContext.Orders.FirstOrDefaultAsync(f => f.OrderID == id);
+            if (order == null)
+            {
+                return false;
+            }
+
+            order!.OrderNumber = orderNumber;
+            order!.OrderDate = orderTime;
+            order!.CustomerID = customerID;
+            order!.PaymentID = paymentID;
+            order!.ShipperID = shipperID;
+
+            _dbContext.Entry(order).CurrentValues.SetValues(order);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }
