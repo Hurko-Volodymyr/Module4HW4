@@ -26,16 +26,16 @@ namespace Modul.Services
             _loggerService = loggerService;
         }
 
-        public async Task<bool> AddCustomerAsync(int id, string firstName, string lastName, string adress, string city, string postalCode, string country, string phone)
+        public async Task<int> AddCustomerAsync(string firstName, string lastName, string adress, string city, string postalCode, string country, string phone)
         {
             return await ExecuteSafeAsync(async () =>
             {
-                bool status = await _customerRepository.AddCustomerAsync(id, firstName, lastName, adress, city, postalCode, country, phone);
+                var id = await _customerRepository.AddCustomerAsync(firstName, lastName, adress, city, postalCode, country, phone);
                 _loggerService.LogInformation($"Created user with Id = {id}");
                 var notifyMassage = "registration was successful";
                 var notifyTo = "user@gmail.com";
                 _notificationService.Notify(NotifyType.Email, notifyMassage, notifyTo);
-                return status;
+                return id;
             });
         }
 

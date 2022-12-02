@@ -22,11 +22,11 @@ namespace Modul.Services
             _loggerService = loggerService!;
         }
 
-        public async Task<bool> AddProductAsync(int id, string name, string description)
+        public async Task<int> AddProductAsync(string name, string description)
         {
-            var status = await _productRepository.AddProductAsync(id, name, description);
+            var id = await _productRepository.AddProductAsync(name, description);
             _loggerService.LogInformation($"Created product with Id = {id}");
-            return status;
+            return id;
         }
 
         public Task<bool> DeleteProductAsync(int id)

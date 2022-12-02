@@ -21,11 +21,11 @@ namespace Modul.Services
             _loggerService = loggerService;
         }
 
-        public async Task<bool> AddOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
+        public async Task<int> AddOrderAsync(int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
         {
-            var status = await _orderRepository.AddOrderAsync(id, orderNumber, orderTime, customerID, paymentID, shipperID);
+            var id = await _orderRepository.AddOrderAsync(orderNumber, orderTime, customerID, paymentID, shipperID);
             _loggerService.LogInformation($"Created order with Id = {id}");
-            return status;
+            return id;
         }
 
         public async Task<bool> DeleteOrderAsync(int id)

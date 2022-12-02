@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Modul.Data.Entities;
+using Modul.Models;
 using Modul.Repositories.Abstractions;
 using Modul.Services.Abstractions;
 
@@ -15,7 +16,7 @@ namespace Modul.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task<bool> AddProductAsync(int id, string name, string description)
+        public async Task<int> AddProductAsync(string name, string description)
         {
             var product = new ProductEntity()
             {
@@ -24,14 +25,9 @@ namespace Modul.Repositories
             };
 
             var result = await _dbContext.Products.AddAsync(product);
-            var status = false;
             await _dbContext.SaveChangesAsync();
-            if (result.Entity.ProductID.Equals(id))
-            {
-                status = true;
-            }
 
-            return status;
+            return result.Entity.ProductID;
         }
 
         public async Task<bool> DeleteProductAsync(int id)

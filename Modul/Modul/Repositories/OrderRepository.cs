@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Modul.Data.Entities;
+using Modul.Models;
 using Modul.Repositories.Abstractions;
 using Modul.Services.Abstractions;
 
@@ -14,11 +15,10 @@ namespace Modul.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task<bool> AddOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
+        public async Task<int> AddOrderAsync(int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
         {
             var order = new OrderEntity()
             {
-                OrderID = id,
                 OrderNumber = orderNumber,
                 OrderDate = orderTime,
                 CustomerID = customerID,
@@ -27,14 +27,9 @@ namespace Modul.Repositories
             };
 
             var result = await _dbContext.Orders.AddAsync(order);
-            var status = false;
             await _dbContext.SaveChangesAsync();
-            if (result.Entity.OrderID.Equals(id))
-            {
-                status = true;
-            }
 
-            return status;
+            return result.Entity.OrderID;
         }
 
         public async Task<bool> DeleteOrderAsync(int id)

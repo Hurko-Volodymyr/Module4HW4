@@ -15,11 +15,10 @@ namespace Modul.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task<bool> AddCustomerAsync(int id, string firstName, string lastName, string adress, string city, string postalCode, string country, string phone)
+        public async Task<int> AddCustomerAsync(string firstName, string lastName, string adress, string city, string postalCode, string country, string phone)
         {
             var customer = new CustomerEntity()
             {
-                CustomerID = id,
                 FirstName = firstName,
                 LastName = lastName,
                 Address = adress,
@@ -29,10 +28,10 @@ namespace Modul.Repositories
                 Phone = phone
             };
 
-            await _dbContext.Customers.AddAsync(customer);
+            var result = await _dbContext.Customers.AddAsync(customer);
             await _dbContext.SaveChangesAsync();
 
-            return true;
+            return result.Entity.CustomerID;
         }
 
         public async Task<bool> DeleteCustomerAsync(int id)
