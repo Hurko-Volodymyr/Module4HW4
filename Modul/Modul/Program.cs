@@ -58,6 +58,5 @@ namespace Modul
                 .AddTransient<IShipperService, ShipperService>()
                 .AddTransient<ISupplierService, SupplierService>()
                 .AddTransient<App>();
-        }
-    }
+
 }
