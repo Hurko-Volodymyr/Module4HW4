@@ -66,9 +66,9 @@ namespace Modul
             await _orderService.GetOrderAsync(order);
             await _orderService.GetOrderByCustomerIdAsync(customer);
 
-            // var orderDetail = await _orderDetailsService.AddOrderDetailsAsync(order, product, "XL", "Green");
-            // await _orderDetailsService.UpdateOrderDetailsAsync(orderDetail, order, product, "L", "Green");
-            // await _orderDetailsService.GetOrderDetailsAsync(orderDetail);
+            var orderDetail = await _orderDetailsService.AddOrderDetailsAsync(order, product, "XL", "Green");
+            await _orderDetailsService.UpdateOrderDetailsAsync(orderDetail, order, product, "L", "Green");
+            await _orderDetailsService.GetOrderDetailsAsync(orderDetail);
             Console.WriteLine("Done");
         }
     }

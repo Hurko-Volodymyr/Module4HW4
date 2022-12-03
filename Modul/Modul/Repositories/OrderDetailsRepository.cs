@@ -77,7 +77,7 @@ namespace Modul.Repositories
 
         public async Task<OrderDetailEntity?> GetOrderDetailsAsync(int id)
         {
-            return await _dbContext.OrderDetails.FirstOrDefaultAsync(f => f.OrderID == id);
+            return await _dbContext.OrderDetails.FirstOrDefaultAsync(f => f.OrderDetailID == id);
         }
 
         public async Task<bool> UpdateOrderDetailsAsync(int orderDetailId, int orderId, int productId, string size, string color)

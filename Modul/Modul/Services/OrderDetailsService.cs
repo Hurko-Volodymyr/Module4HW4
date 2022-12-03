@@ -58,7 +58,7 @@ namespace Modul.Services
             return new OrderDetail
             {
                 OrderDetailID = id,
-                OrderID = result.OrderDetailID,
+                OrderID = result.OrderID,
                 ProductID = result.ProductID,
                 Color = result!.Color,
                 Size = result!.Size
