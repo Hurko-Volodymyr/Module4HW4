@@ -20,8 +20,7 @@ namespace Modul.Repositories
             var shipper = await _dbContext.Shippers.AddAsync(new ShipperEntity()
             {
                 CompanyName = companyName,
-                Phone = phone,
-                Orders = new List<OrderEntity>()
+                Phone = phone
             });
 
             await _dbContext.SaveChangesAsync();

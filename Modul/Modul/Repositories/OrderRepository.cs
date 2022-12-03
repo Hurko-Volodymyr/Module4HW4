@@ -52,7 +52,7 @@ namespace Modul.Repositories
 
         public async Task<IEnumerable<OrderEntity>?> GetOrderByCustomerIdAsync(int id)
         {
-            return await _dbContext.Orders.Include(i => i.Products).Where(w => w.CustomerID == id).ToListAsync();
+            return await _dbContext.Orders.Include(i => i.Products).Where(f => f.CustomerID == id).ToListAsync();
         }
 
         public async Task<bool> UpdateOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)

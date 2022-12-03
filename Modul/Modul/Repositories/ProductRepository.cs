@@ -22,7 +22,6 @@ namespace Modul.Repositories
                 ProductName = name,
                 ProductDescription = description,
                 CategoryID = categoryId,
-                SupplierID = supllierId
             });
 
             await _dbContext.SaveChangesAsync();

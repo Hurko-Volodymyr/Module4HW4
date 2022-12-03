@@ -64,25 +64,25 @@ namespace Modul.Services
             };
         }
 
-        // public async Task<IEnumerable<Order>?> GetOrderByCustomerIdAsync(int id)
-        //  {
-        //    var result = await _orderRepository.GetOrderByCustomerIdAsync(id);
+        public async Task<IEnumerable<Order>?> GetOrderByCustomerIdAsync(int id)
+        {
+            var result = await _orderRepository.GetOrderByCustomerIdAsync(id);
 
-        // if (result == null)
-        //    {
-        //        _loggerService.LogWarning($"Not founded order with Id = {id}");
-        //        return null!;
-        //    }
+            if (result == null)
+            {
+                _loggerService.LogWarning($"Not founded order with Id = {id}");
+                return null!;
+            }
 
-        // return result.Select(r => new Order()
-        //    {
-        //        OrderID = r.OrderID,
-        //        Products = (List<Product>)r.Products.Select(s => new Product()
-        //        {
-        //            ProductID = s.ProductID,
-        //        })
-        //    }).ToList();
-        // }
+            return result.Select(s => new Order()
+            {
+                OrderID = s.OrderID,
+                CustomerID = s.CustomerID,
+                OrderNumber = s.OrderNumber,
+                OrderDate = s.OrderDate
+            }).ToList();
+        }
+
         public async Task<bool> UpdateOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
         {
             var status = await _orderRepository.UpdateOrderAsync(id, orderNumber, orderTime, customerID, paymentID, shipperID);

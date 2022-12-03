@@ -22,14 +22,14 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new SupplierEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
         modelBuilder.ApplyConfiguration(new CustomerEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new OrderDetailEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new OrderEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new PaymentEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
         modelBuilder.ApplyConfiguration(new ProductEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new SupplierEntityConfiguration());
         modelBuilder.ApplyConfiguration(new ShipperEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new PaymentEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderDetailEntityConfiguration());
         modelBuilder.UseHiLo();
     }
 }
