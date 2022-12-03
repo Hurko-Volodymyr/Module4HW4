@@ -15,12 +15,12 @@ namespace Modul.Data.EntityConfigurations
             builder.Property(p => p.SupplierID).IsRequired();
 
             builder.HasOne(h => h.Category)
-                   .WithMany(w => w.Products)
+                   .WithMany(w => w.ProductsInCategory)
                    .HasForeignKey(h => h.CategoryID)
                    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(h => h.Supplier)
-                   .WithMany(w => w.Products)
+                   .WithMany(w => w.SupplyProducts)
                    .HasForeignKey(h => h.SupplierID)
                    .OnDelete(DeleteBehavior.Cascade);
         }

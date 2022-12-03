@@ -10,6 +10,6 @@
         public string? Address { get; set; }
         public string? City { get; set; }
         public int CustomerID { get; set; }
-        public List<ProductEntity>? Products { get; set; } = new List<ProductEntity>();
+        public List<ProductEntity>? SupplyProducts { get; set; } = new List<ProductEntity>();
     }
 }

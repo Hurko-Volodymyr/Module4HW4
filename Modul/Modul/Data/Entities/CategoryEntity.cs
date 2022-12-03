@@ -7,6 +7,6 @@
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public bool? Active { get; set; }
-        public List<ProductEntity> Products { get; set; } = new List<ProductEntity>();
+        public List<ProductEntity> ProductsInCategory { get; set; } = new List<ProductEntity>();
     }
 }
