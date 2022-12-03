@@ -15,7 +15,7 @@ namespace Modul.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task<int> AddCategoryAsync(string categoryName, string description, string picture, string active)
+        public async Task<int> AddCategoryAsync(string categoryName, string description, string picture, bool active)
         {
             var category = await _dbContext.Categories.AddAsync(new CategoryEntity()
             {
@@ -48,7 +48,7 @@ namespace Modul.Repositories
             return await _dbContext.Categories.FirstOrDefaultAsync(f => f.CategoryID == id);
         }
 
-        public async Task<bool> UpdateCategoryAsync(int id, string categoryName, string description, string picture, string active)
+        public async Task<bool> UpdateCategoryAsync(int id, string categoryName, string description, string picture, bool active)
         {
             var category = await _dbContext.Categories.FirstOrDefaultAsync(f => f.CategoryID == id);
             if (category == null)

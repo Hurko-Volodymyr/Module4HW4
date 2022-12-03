@@ -3,13 +3,13 @@
     public class Supplier
     {
         public int SupplierID { get; set; }
-        public string CompanyName { get; set; } = null!;
-        public string ContactFName { get; set; } = null!;
-        public string ContactLName { get; set; } = null!;
-        public string ContactTitle { get; set; } = null!;
-        public string Address { get; set; } = null!;
-        public string City { get; set; } = null!;
-        public int CustomerID { get; set; }
-        public List<Product> Products { get; set; } = new List<Product>();
+        public string? CompanyName { get; set; }
+        public string? ContactFName { get; set; }
+        public string? ContactLName { get; set; }
+        public string? ContactTitle { get; set; }
+        public string? Address { get; set; }
+        public string? City { get; set; }
+        public int? CustomerID { get; set; }
+        public List<Product>? Products { get; set; } = new List<Product>();
     }
 }

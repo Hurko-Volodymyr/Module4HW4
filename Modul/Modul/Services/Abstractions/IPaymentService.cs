@@ -1,5 +1,4 @@
-﻿using Modul.Data.Entities;
-using Modul.Models;
+﻿using Modul.Models;
 
 namespace Modul.Services.Abstractions
 {

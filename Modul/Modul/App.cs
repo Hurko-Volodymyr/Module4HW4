@@ -12,7 +12,7 @@ namespace Modul
         private readonly IOrderDetailsService _orderDetailsService;
         private readonly IPaymentService _paymentService;
         private readonly IShipperService _shipperService;
-        private readonly ISupplierService _suppliersService;
+        private readonly ISupplierService _supplierService;
 
         public App(
             ICustomerService customerService,
@@ -22,7 +22,7 @@ namespace Modul
             IOrderDetailsService orderDetailsService,
             IPaymentService paymentService,
             IShipperService shipperService,
-            ISupplierService suppliersService)
+            ISupplierService supplierService)
         {
             _customerService = customerService;
             _orderService = orderService;
@@ -31,32 +31,33 @@ namespace Modul
             _orderDetailsService = orderDetailsService;
             _paymentService = paymentService;
             _shipperService = shipperService;
-            _suppliersService = suppliersService;
+            _supplierService = supplierService;
         }
 
         public async Task Start()
         {
-            await _customerService.AddCustomerAsync("Name1", "Surname", "Some-address", "Kharkiv", "ln4n25", "Ukraine", "+380...");
-            await _customerService.GetCustomerAsync(1);
-            await _customerService.GetCustomerAsync(2);
-            await _customerService.UpdateAddressAsync(1, "MyRealAddress");
-            await _customerService.GetCustomerAsync(1);
+            var customer = await _customerService.AddCustomerAsync("Name1", "Surname", "Some-address", "Kharkiv", "ln4n25", "Ukraine", "+380...");
+            await _customerService.GetCustomerAsync(customer);
+            await _customerService.UpdateAddressAsync(customer, "MyRealAddress");
+            await _customerService.GetCustomerAsync(customer);
 
-            await _categoryService.AddCategoryAsync("Tea", "Tea", "Tea.jpg", "active");
-            await _categoryService.GetCategoryAsync(1);
-            await _categoryService.UpdateCategoryAsync(1, "Tea", "Tea", "Tea.jpg", "non-active");
-            await _categoryService.DeleteCategoryAsync(1);
+            var category = await _categoryService.AddCategoryAsync("Tea", "Tea", "Tea.jpg", true);
+            await _categoryService.GetCategoryAsync(category);
+            await _categoryService.UpdateCategoryAsync(category, "Tea", "Tea", "Tea.jpg", false);
 
-            await _paymentService.AddPaymentAsync("card", "some_allowed");
-            await _paymentService.UpdatePaymentAsync(1, "card", "some_allowed");
-            await _paymentService.GetPaymentAsync(1);
-            await _paymentService.DeletePaymentAsync(1);
+            var payment = await _paymentService.AddPaymentAsync("card", "some_allowed");
+            await _paymentService.UpdatePaymentAsync(payment, "GooglePay", "some_allowed");
+            await _paymentService.GetPaymentAsync(payment);
 
-            await _shipperService.AddShipperAsync("Arasaka", "+56363..");
-            await _shipperService.UpdateShipperAsync(1, "Militech", "+56363..");
-            await _shipperService.GetShipperAsync(1);
-            await _shipperService.DeleteShipperAsync(1);
+            var shipper = await _shipperService.AddShipperAsync("Arasaka", "+56363..");
+            await _shipperService.UpdateShipperAsync(shipper, "Militech", "+56363..");
+            await _shipperService.GetShipperAsync(shipper);
 
+            var supplier = await _supplierService.AddSupplierAsync("Militech", "Allo", "Ollo", "Mili", "some-adress", "Night-City", customer);
+            await _supplierService.UpdateSupplierAsync(supplier, "Arasaka", "Allo", "Ollo", "Mili", "some-adress", "Night-City", customer);
+            await _supplierService.GetSupplierAsync(supplier);
+
+            // OrderDetails
             // await _productService.AddProductAsync("tea", "romashka", 1, 1);
             // await _productService.AddProductAsync("tea", "gold", 1, 2);
             // await _productService.AddProductAsync("tea", "green", 1, 3);

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Modul.Data.Entities;
 using Modul.Models;
-using Modul.Repositories;
 using Modul.Repositories.Abstractions;
 using Modul.Services.Abstractions;
 
@@ -48,9 +46,9 @@ namespace Modul.Services
 
         public async Task<Shipper?> GetShipperAsync(int id)
         {
-            var category = await _shipperRepository.GetShipperAsync(id);
+            var shipper = await _shipperRepository.GetShipperAsync(id);
 
-            if (category == null)
+            if (shipper == null)
             {
                 _loggerService.LogWarning($"Not founded Shipper with Id = {id}");
                 return null!;
@@ -59,8 +57,8 @@ namespace Modul.Services
             return new Shipper()
             {
                 ShipperID = id,
-                CompanyName = category.CompanyName,
-                Phone = category.Phone,
+                CompanyName = shipper.CompanyName,
+                Phone = shipper.Phone,
             };
         }
 

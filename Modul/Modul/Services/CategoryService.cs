@@ -21,7 +21,7 @@ namespace Modul.Services
             _loggerService = loggerService;
         }
 
-        public async Task<int> AddCategoryAsync(string categoryName, string description, string picture, string active)
+        public async Task<int> AddCategoryAsync(string categoryName, string description, string picture, bool active)
         {
             var id = await _categoryRepository.AddCategoryAsync(categoryName, description, picture, active);
             _loggerService.LogInformation($"Created category with Id = {id}");
@@ -64,7 +64,7 @@ namespace Modul.Services
             };
         }
 
-        public async Task<bool> UpdateCategoryAsync(int id, string categoryName, string description, string picture, string active)
+        public async Task<bool> UpdateCategoryAsync(int id, string categoryName, string description, string picture, bool active)
         {
             var status = await _categoryRepository.UpdateCategoryAsync(id, categoryName, description, picture, active);
             _loggerService.LogInformation($"Updated category with Id = {id}");

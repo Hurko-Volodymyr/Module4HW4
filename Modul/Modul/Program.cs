@@ -56,7 +56,7 @@ namespace Modul
                 .AddTransient<IOrderDetailsService, OrderDetailsServices>()
                 .AddTransient<IPaymentService, PaymentService>()
                 .AddTransient<IShipperService, ShipperService>()
-                .AddTransient<ISupplierService, SuppliersService>()
+                .AddTransient<ISupplierService, SupplierService>()
                 .AddTransient<App>();
         }
     }
