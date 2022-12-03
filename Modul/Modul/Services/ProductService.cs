@@ -24,14 +24,25 @@ namespace Modul.Services
 
         public async Task<int> AddProductAsync(string name, string description, int categoryId, int supplierId)
         {
-            var id = await _productRepository.AddProductAsync(name, description);
+            var id = await _productRepository.AddProductAsync(name, description, categoryId, supplierId);
             _loggerService.LogInformation($"Created product with Id = {id}");
             return id;
         }
 
-        public Task<bool> DeleteProductAsync(int id)
+        public async Task<bool> DeleteProductAsync(int id)
         {
-            return ((IProductService)_productRepository).DeleteProductAsync(id);
+            var result = await _productRepository.DeleteProductAsync(id);
+
+            if (result == false)
+            {
+                _loggerService.LogWarning($"Not founded Product with Id = {id}");
+            }
+            else
+            {
+                _loggerService.LogWarning($"Product with Id = {id} was deleted");
+            }
+
+            return result;
         }
 
         public async Task<Product?> GetProductAsync(int id)
@@ -52,9 +63,11 @@ namespace Modul.Services
             };
         }
 
-        public Task<bool> UpdateProductAsync(int id, string name, string description, int categoryId, int supplierId)
+        public async Task<bool> UpdateProductAsync(int id, string name, string description, int categoryId, int supplierId)
         {
-            return ((IProductService)_productRepository).UpdateProductAsync(id, name, description, categoryId, supplierId);
+            var status = await _productRepository.UpdateProductAsync(id, name, description, categoryId, supplierId);
+            _loggerService.LogInformation($"Updated Product with Id = {id}");
+            return status;
         }
     }
 }

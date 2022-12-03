@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Modul.Data.Entities;
 using Modul.Models;
 using Modul.Repositories.Abstractions;
 using Modul.Services.Abstractions;
@@ -57,32 +58,31 @@ namespace Modul.Services
             return new Order
             {
                 OrderID = result.OrderID,
-                CustomerID = result.CustomerID,
+                CustomerID = result!.CustomerID,
                 OrderNumber = result.OrderNumber,
                 OrderDate = result.OrderDate
             };
         }
 
-        public async Task<IEnumerable<Order>?> GetOrderByCustomerIdAsync(int id)
-        {
-            var result = await _orderRepository.GetOrderByCustomerIdAsync(id);
+        // public async Task<IEnumerable<Order>?> GetOrderByCustomerIdAsync(int id)
+        //  {
+        //    var result = await _orderRepository.GetOrderByCustomerIdAsync(id);
 
-            if (result == null)
-            {
-                _loggerService.LogWarning($"Not founded order with Id = {id}");
-                return null!;
-            }
+        // if (result == null)
+        //    {
+        //        _loggerService.LogWarning($"Not founded order with Id = {id}");
+        //        return null!;
+        //    }
 
-            return result.Select(r => new Order()
-            {
-                OrderID = r.OrderID,
-                Products = (List<Product>)r.Products.Select(s => new Product()
-                {
-                    ProductID = s.ProductID,
-                })
-            }).ToList();
-        }
-
+        // return result.Select(r => new Order()
+        //    {
+        //        OrderID = r.OrderID,
+        //        Products = (List<Product>)r.Products.Select(s => new Product()
+        //        {
+        //            ProductID = s.ProductID,
+        //        })
+        //    }).ToList();
+        // }
         public async Task<bool> UpdateOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID)
         {
             var status = await _orderRepository.UpdateOrderAsync(id, orderNumber, orderTime, customerID, paymentID, shipperID);

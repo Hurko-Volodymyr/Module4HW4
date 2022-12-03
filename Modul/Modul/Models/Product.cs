@@ -1,4 +1,6 @@
-﻿namespace Modul.Models
+﻿using Modul.Data.Entities;
+
+namespace Modul.Models
 {
     public class Product
     {
@@ -9,6 +11,6 @@
         public int? SupplierID { get; set; }
         public Supplier? Supplier { get; set; }
         public Category? Category { get; set; }
-        public List<Order> Orders { get; set; } = new List<Order>();
+        public List<OrderDetail>? Products { get; set; } = new List<OrderDetail>();
     }
 }

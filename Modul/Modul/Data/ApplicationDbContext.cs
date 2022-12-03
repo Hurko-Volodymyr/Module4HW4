@@ -22,6 +22,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new SupplierEntityConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
         modelBuilder.ApplyConfiguration(new CustomerEntityConfiguration());
         modelBuilder.ApplyConfiguration(new OrderDetailEntityConfiguration());
@@ -29,7 +30,6 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new PaymentEntityConfiguration());
         modelBuilder.ApplyConfiguration(new ProductEntityConfiguration());
         modelBuilder.ApplyConfiguration(new ShipperEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new SupplierEntityConfiguration());
         modelBuilder.UseHiLo();
     }
 }

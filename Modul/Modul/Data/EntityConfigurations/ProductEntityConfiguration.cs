@@ -11,6 +11,8 @@ namespace Modul.Data.EntityConfigurations
             builder.HasKey(h => h.ProductID);
             builder.Property(p => p.ProductName).IsRequired();
             builder.Property(p => p.ProductDescription).IsRequired();
+            builder.Property(p => p.CategoryID).IsRequired();
+            builder.Property(p => p.SupplierID).IsRequired();
 
             builder.HasOne(h => h.Category)
                    .WithMany(w => w.Products)

@@ -57,15 +57,18 @@ namespace Modul
             await _supplierService.UpdateSupplierAsync(supplier, "Arasaka", "Allo", "Ollo", "Mili", "some-adress", "Night-City", customer);
             await _supplierService.GetSupplierAsync(supplier);
 
-            // OrderDetails
-            // await _productService.AddProductAsync("tea", "romashka", 1, 1);
+            var order = await _orderService.AddOrderAsync(1, DateTime.Now, customer, payment, shipper);
+            await _orderService.UpdateOrderAsync(order, 1, DateTime.UtcNow, customer, payment, shipper);
+            await _orderService.GetOrderAsync(order);
+
+            // await _orderService.GetOrderByCustomerIdAsync(customer);
+            // var product = await _productService.AddProductAsync("tea", "romashka", category, supplier);
+
             // await _productService.AddProductAsync("tea", "gold", 1, 2);
             // await _productService.AddProductAsync("tea", "green", 1, 3);
-            var order1 = new Order();
 
             // await _orderDetailsService
-            // await _orderService.AddOrderAsync(1, DateTime.Now, 1, 1, 1);
-            // await _orderService.UpdateOrderAsync(order1.OrderID, order1.OrderNumber, order1.OrderDate, order1.CustomerID, order1.PaymentID, 2);
+            // var orderDetail = await _orderDetailsService.
             Console.WriteLine("Done");
         }
     }

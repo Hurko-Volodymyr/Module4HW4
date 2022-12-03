@@ -63,7 +63,8 @@ namespace Modul.Services
                 ContactTitle = supplier!.ContactTitle,
                 City = supplier!.City,
                 Address = supplier!.Address,
-                CustomerID = supplier!.CustomerID
+
+                // CustomerID = supplier!.CustomerID
             };
         }
 

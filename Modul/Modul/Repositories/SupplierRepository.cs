@@ -63,8 +63,8 @@ namespace Modul.Repositories
             shipper.ContactTitle = contactTitle;
             shipper.Address = address;
             shipper.City = city;
-            shipper.CustomerID = customerId;
 
+            // shipper.CustomerID = customerId;
             _dbContext.Entry(shipper).CurrentValues.SetValues(shipper);
             await _dbContext.SaveChangesAsync();
 

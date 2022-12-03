@@ -15,8 +15,6 @@ namespace Modul.Data.EntityConfigurations
             builder.Property(p => p.ContactTitle).IsRequired();
             builder.Property(p => p.Address).IsRequired();
             builder.Property(p => p.City).IsRequired();
-            builder.HasMany(p => p.Products).WithOne(s => s.Supplier)
-            .HasForeignKey(s => s.SupplierID);
         }
     }
 }

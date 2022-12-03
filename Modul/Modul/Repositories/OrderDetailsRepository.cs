@@ -15,7 +15,7 @@ namespace Modul.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<CategoryEntity?> GetOrderDetailsAsync(int id)
+        public Task<OrderDetailEntity?> GetOrderDetailsAsync(int id)
         {
             throw new NotImplementedException();
         }

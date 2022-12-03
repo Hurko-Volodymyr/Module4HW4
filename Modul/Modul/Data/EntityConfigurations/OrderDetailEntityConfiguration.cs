@@ -18,9 +18,9 @@ namespace Modul.Data.EntityConfigurations
                    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(h => h.Product)
-                .WithMany(w => w.Products)
-                .HasForeignKey(h => h.ProductID)
-                .OnDelete(DeleteBehavior.Cascade);
+                   .WithMany(w => w.Products)
+                   .HasForeignKey(h => h.ProductID)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
