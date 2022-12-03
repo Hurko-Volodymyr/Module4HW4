@@ -8,6 +8,7 @@ namespace Modul.Repositories.Abstractions
         Task<OrderEntity?> GetOrderAsync(int id);
         Task<IEnumerable<OrderEntity>?> GetOrderByCustomerIdAsync(int id);
         Task<bool> UpdateOrderAsync(int id, int orderNumber, DateTime orderTime, int customerID, int paymentID, int shipperID);
+        Task<bool> UpdateOrderByCustomerIdAsync(int id, int orderNumber, DateTime orderTime, int paymentID, int shipperID);
         Task<bool> DeleteOrderAsync(int id);
     }
 }

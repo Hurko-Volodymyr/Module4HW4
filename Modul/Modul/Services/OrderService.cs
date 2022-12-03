@@ -89,5 +89,12 @@ namespace Modul.Services
             _loggerService.LogInformation($"Updated order with Id = {id}");
             return status;
         }
+
+        public async Task<bool> UpdateOrderByCustomerIdAsync(int id, int orderNumber, DateTime orderTime, int paymentID, int shipperID)
+        {
+            var status = await _orderRepository.UpdateOrderByCustomerIdAsync(id, orderNumber, orderTime, paymentID, shipperID);
+            _loggerService.LogInformation($"Updated order with Id = {id}");
+            return status;
+        }
     }
 }

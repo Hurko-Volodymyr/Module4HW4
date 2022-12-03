@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Modul.Data.Entities;
+using Modul.Models;
 using Modul.Repositories.Abstractions;
 using Modul.Services.Abstractions;
 
@@ -64,8 +65,27 @@ namespace Modul.Repositories
             }
 
             order!.OrderNumber = orderNumber;
-            order!.OrderDate = orderTime;
+            order!.OrderDate = orderTime.ToUniversalTime();
             order!.CustomerID = customerID;
+            order!.PaymentID = paymentID;
+            order!.ShipperID = shipperID;
+
+            _dbContext.Entry(order).CurrentValues.SetValues(order);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> UpdateOrderByCustomerIdAsync(int id, int orderNumber, DateTime orderTime, int paymentID, int shipperID)
+        {
+            var order = await _dbContext.Orders.FirstOrDefaultAsync(f => f.CustomerID == id);
+            if (order == null)
+            {
+                return false;
+            }
+
+            order!.OrderNumber = orderNumber;
+            order!.OrderDate = orderTime.ToUniversalTime();
             order!.PaymentID = paymentID;
             order!.ShipperID = shipperID;
 

@@ -70,5 +70,43 @@ namespace Modul.Repositories
 
             return true;
         }
+
+        public async Task<IEnumerable<ProductEntity?>> GetProductByCategoryAsync(int categoryId)
+        {
+            return await _dbContext.Products.Include(i => i.Category).Where(f => f.CategoryID == categoryId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ProductEntity?>> GetProductBySupplierIdAsync(int supllierId)
+        {
+            return await _dbContext.Products.Include(i => i.Supplier).Where(f => f.SupplierID == supllierId).ToListAsync();
+        }
+
+        public async Task<bool> DeleteProductByCategoryAsync(int categoryId)
+        {
+            var entitys = await GetProductByCategoryAsync(categoryId);
+            if (entitys == null)
+            {
+                return false;
+            }
+
+            _dbContext.Entry(entitys).State = EntityState.Deleted;
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteProductBySupplierIdAsync(int supllierId)
+        {
+            var entity = await _dbContext.Products.FirstOrDefaultAsync(f => f.SupplierID == supllierId);
+            if (entity == null)
+            {
+                return false;
+            }
+
+            _dbContext.Entry(entity).State = EntityState.Deleted;
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

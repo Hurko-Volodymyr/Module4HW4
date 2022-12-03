@@ -65,15 +65,15 @@ namespace Modul.Repositories
         {
         var entity = await _dbContext.OrderDetails.FirstOrDefaultAsync(f => f.OrderDetailID == id);
         if (entity == null)
-        {
+           {
             return false;
-        }
+           }
 
         _dbContext.Entry(entity).State = EntityState.Deleted;
         await _dbContext.SaveChangesAsync();
 
         return true;
-    }
+        }
 
         public async Task<OrderDetailEntity?> GetOrderDetailsAsync(int id)
         {

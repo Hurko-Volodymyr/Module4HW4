@@ -52,6 +52,10 @@ namespace Modul
             var product = await _productService.AddProductAsync("tea", "romashka", category, supplier);
             await _productService.UpdateProductAsync(product, "tea", "gold", 1, 2);
             await _productService.GetProductAsync(product);
+            await _productService.GetProductByCategoryAsync(category);
+            await _productService.GetProductBySupplierIdAsync(supplier);
+            await _productService.DeleteProductBySupplierIdAsync(supplier);
+            await _productService.DeleteProductByCategoryAsync(category);
 
             var shipper = await _shipperService.AddShipperAsync("Arasaka", "+56363..");
             await _shipperService.UpdateShipperAsync(shipper, "Militech", "+56363..");
@@ -65,6 +69,7 @@ namespace Modul
             await _orderService.UpdateOrderAsync(order, 1, DateTime.UtcNow, customer, payment, shipper);
             await _orderService.GetOrderAsync(order);
             await _orderService.GetOrderByCustomerIdAsync(customer);
+            await _orderService.UpdateOrderByCustomerIdAsync(customer, 1, DateTime.Now, payment, shipper);
 
             var orderDetail = await _orderDetailsService.AddOrderDetailsAsync(order, product, "XL", "Green");
             await _orderDetailsService.UpdateOrderDetailsAsync(orderDetail, order, product, "L", "Green");
