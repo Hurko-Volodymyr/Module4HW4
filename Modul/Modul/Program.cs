@@ -53,7 +53,7 @@ namespace Modul
                 .AddTransient<IProductService, ProductService>()
                 .AddTransient<ICategoryService, CategoryService>()
                 .AddTransient<ICustomerService, CustomerService>()
-                .AddTransient<IOrderDetailsService, OrderDetailsServices>()
+                .AddTransient<IOrderDetailsService, OrderDetailsService>()
                 .AddTransient<IPaymentService, PaymentService>()
                 .AddTransient<IShipperService, ShipperService>()
                 .AddTransient<ISupplierService, SupplierService>()

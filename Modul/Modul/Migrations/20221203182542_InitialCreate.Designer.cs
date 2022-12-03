@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Modul.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221130130454_InitialCreate")]
+    [Migration("20221203182542_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,9 +35,9 @@ namespace Modul.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseHiLo(b.Property<int>("CategoryID"));
 
-                    b.Property<string>("Active")
+                    b.Property<bool?>("Active")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
@@ -136,7 +136,7 @@ namespace Modul.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseHiLo(b.Property<int>("OrderID"));
 
-                    b.Property<int>("CustomerID")
+                    b.Property<int?>("CustomerID")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("OrderDate")
@@ -145,10 +145,10 @@ namespace Modul.Migrations
                     b.Property<int>("OrderNumber")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PaymentID")
+                    b.Property<int?>("PaymentID")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ShipperID")
+                    b.Property<int?>("ShipperID")
                         .HasColumnType("integer");
 
                     b.HasKey("OrderID");
@@ -186,10 +186,12 @@ namespace Modul.Migrations
             modelBuilder.Entity("Modul.Data.Entities.ProductEntity", b =>
                 {
                     b.Property<int>("ProductID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    b.Property<int?>("CategoryID")
-                        .IsRequired()
+                    NpgsqlPropertyBuilderExtensions.UseHiLo(b.Property<int>("ProductID"));
+
+                    b.Property<int>("CategoryID")
                         .HasColumnType("integer");
 
                     b.Property<string>("ProductDescription")
@@ -200,13 +202,14 @@ namespace Modul.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("SupplierID")
-                        .IsRequired()
+                    b.Property<int>("SupplierID")
                         .HasColumnType("integer");
 
                     b.HasKey("ProductID");
 
                     b.HasIndex("CategoryID");
+
+                    b.HasIndex("SupplierID");
 
                     b.ToTable("Products");
                 });
@@ -264,7 +267,7 @@ namespace Modul.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("CustomerID")
+                    b.Property<int?>("CustomerID")
                         .HasColumnType("integer");
 
                     b.HasKey("SupplierID");
@@ -272,31 +275,16 @@ namespace Modul.Migrations
                     b.ToTable("Suppliers");
                 });
 
-            modelBuilder.Entity("OrderEntityProductEntity", b =>
-                {
-                    b.Property<int>("OrdersOrderID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProductsProductID")
-                        .HasColumnType("integer");
-
-                    b.HasKey("OrdersOrderID", "ProductsProductID");
-
-                    b.HasIndex("ProductsProductID");
-
-                    b.ToTable("OrderEntityProductEntity");
-                });
-
             modelBuilder.Entity("Modul.Data.Entities.OrderDetailEntity", b =>
                 {
                     b.HasOne("Modul.Data.Entities.OrderEntity", "Order")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Modul.Data.Entities.ProductEntity", "Product")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -311,20 +299,17 @@ namespace Modul.Migrations
                     b.HasOne("Modul.Data.Entities.CustomerEntity", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Modul.Data.Entities.PaymentEntity", "Payment")
                         .WithMany("Orders")
                         .HasForeignKey("PaymentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Modul.Data.Entities.ShipperEntity", "Shipper")
                         .WithMany("Orders")
                         .HasForeignKey("ShipperID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Customer");
 
@@ -336,14 +321,14 @@ namespace Modul.Migrations
             modelBuilder.Entity("Modul.Data.Entities.ProductEntity", b =>
                 {
                     b.HasOne("Modul.Data.Entities.CategoryEntity", "Category")
-                        .WithMany("Categories")
+                        .WithMany("Products")
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Modul.Data.Entities.SupplierEntity", "Supplier")
                         .WithMany("Products")
-                        .HasForeignKey("ProductID")
+                        .HasForeignKey("SupplierID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -352,24 +337,9 @@ namespace Modul.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("OrderEntityProductEntity", b =>
-                {
-                    b.HasOne("Modul.Data.Entities.OrderEntity", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersOrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Modul.Data.Entities.ProductEntity", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Modul.Data.Entities.CategoryEntity", b =>
                 {
-                    b.Navigation("Categories");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Modul.Data.Entities.CustomerEntity", b =>
@@ -377,9 +347,19 @@ namespace Modul.Migrations
                     b.Navigation("Orders");
                 });
 
+            modelBuilder.Entity("Modul.Data.Entities.OrderEntity", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("Modul.Data.Entities.PaymentEntity", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Modul.Data.Entities.ProductEntity", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Modul.Data.Entities.ShipperEntity", b =>

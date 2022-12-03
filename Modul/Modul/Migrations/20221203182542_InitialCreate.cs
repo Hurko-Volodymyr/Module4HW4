@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -20,7 +21,7 @@ namespace Modul.Migrations
                     CategoryName = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Picture = table.Column<string>(type: "text", nullable: false),
-                    Active = table.Column<string>(type: "text", nullable: false)
+                    Active = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +83,7 @@ namespace Modul.Migrations
                     ContactTitle = table.Column<string>(type: "text", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: false),
                     City = table.Column<string>(type: "text", nullable: false),
-                    CustomerID = table.Column<int>(type: "integer", nullable: false)
+                    CustomerID = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -95,9 +96,9 @@ namespace Modul.Migrations
                 {
                     OrderID = table.Column<int>(type: "integer", nullable: false),
                     OrderNumber = table.Column<int>(type: "integer", nullable: false),
-                    CustomerID = table.Column<int>(type: "integer", nullable: false),
-                    PaymentID = table.Column<int>(type: "integer", nullable: false),
-                    ShipperID = table.Column<int>(type: "integer", nullable: false),
+                    CustomerID = table.Column<int>(type: "integer", nullable: true),
+                    PaymentID = table.Column<int>(type: "integer", nullable: true),
+                    ShipperID = table.Column<int>(type: "integer", nullable: true),
                     OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -143,8 +144,8 @@ namespace Modul.Migrations
                         principalColumn: "CategoryID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Products_Suppliers_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_Products_Suppliers_SupplierID",
+                        column: x => x.SupplierID,
                         principalTable: "Suppliers",
                         principalColumn: "SupplierID",
                         onDelete: ReferentialAction.Cascade);
@@ -177,30 +178,6 @@ namespace Modul.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "OrderEntityProductEntity",
-                columns: table => new
-                {
-                    OrdersOrderID = table.Column<int>(type: "integer", nullable: false),
-                    ProductsProductID = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderEntityProductEntity", x => new { x.OrdersOrderID, x.ProductsProductID });
-                    table.ForeignKey(
-                        name: "FK_OrderEntityProductEntity_Orders_OrdersOrderID",
-                        column: x => x.OrdersOrderID,
-                        principalTable: "Orders",
-                        principalColumn: "OrderID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderEntityProductEntity_Products_ProductsProductID",
-                        column: x => x.ProductsProductID,
-                        principalTable: "Products",
-                        principalColumn: "ProductID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_OrderID",
                 table: "OrderDetails",
@@ -210,11 +187,6 @@ namespace Modul.Migrations
                 name: "IX_OrderDetails_ProductID",
                 table: "OrderDetails",
                 column: "ProductID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderEntityProductEntity_ProductsProductID",
-                table: "OrderEntityProductEntity",
-                column: "ProductsProductID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerID",
@@ -235,15 +207,17 @@ namespace Modul.Migrations
                 name: "IX_Products_CategoryID",
                 table: "Products",
                 column: "CategoryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_SupplierID",
+                table: "Products",
+                column: "SupplierID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "OrderDetails");
-
-            migrationBuilder.DropTable(
-                name: "OrderEntityProductEntity");
 
             migrationBuilder.DropTable(
                 name: "Orders");

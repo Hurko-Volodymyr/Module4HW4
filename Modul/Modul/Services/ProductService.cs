@@ -8,17 +8,17 @@ namespace Modul.Services
 {
     public class ProductService : BaseDataService<ApplicationDbContext>, IProductService
     {
-        private readonly ProductRepository _productRepository;
-        private readonly ILogger<CustomerService> _loggerService;
+        private readonly IProductRepository _productRepository;
+        private readonly ILogger<ProductService> _loggerService;
 
         public ProductService(
             IDbContextWrapper<ApplicationDbContext> dbContextWrapper,
             ILogger<BaseDataService<ApplicationDbContext>> logger,
             IProductRepository productRepository,
-            ILogger<CustomerService> loggerService)
+            ILogger<ProductService> loggerService)
             : base(dbContextWrapper, logger)
         {
-            _productRepository = (ProductRepository?)productRepository!;
+            _productRepository = productRepository!;
             _loggerService = loggerService!;
         }
 

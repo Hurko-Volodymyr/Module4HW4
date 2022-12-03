@@ -6,7 +6,7 @@ namespace Modul.Services.Abstractions
     {
         Task<int> AddOrderDetailsAsync(int orderId, int productId, string size, string color);
         Task<OrderDetail?> GetOrderDetailsAsync(int id);
-        Task<bool> UpdateOrderDetailsAsync(int orderId, int productId, string size, string color);
+        Task<bool> UpdateOrderDetailsAsync(int orderDetailId, int orderId, int productId, string size, string color);
         Task<bool> DeleteOrderDetailsAsync(int id);
     }
 }

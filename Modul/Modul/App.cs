@@ -41,34 +41,35 @@ namespace Modul
             await _customerService.UpdateAddressAsync(customer, "MyRealAddress");
             await _customerService.GetCustomerAsync(customer);
 
+            var supplier = await _supplierService.AddSupplierAsync("Militech", "Allo", "Ollo", "Mili", "some-adress", "Night-City", customer);
+            await _supplierService.UpdateSupplierAsync(supplier, "Arasaka", "Allo", "Ollo", "Mili", "some-adress", "Night-City", customer);
+            await _supplierService.GetSupplierAsync(supplier);
+
             var category = await _categoryService.AddCategoryAsync("Tea", "Tea", "Tea.jpg", true);
             await _categoryService.GetCategoryAsync(category);
             await _categoryService.UpdateCategoryAsync(category, "Tea", "Tea", "Tea.jpg", false);
 
-            var payment = await _paymentService.AddPaymentAsync("card", "some_allowed");
-            await _paymentService.UpdatePaymentAsync(payment, "GooglePay", "some_allowed");
-            await _paymentService.GetPaymentAsync(payment);
+            var product = await _productService.AddProductAsync("tea", "romashka", category, supplier);
 
+            // await _productService.UpdateProductAsync("tea", "gold", 1, 2);
+            // await _productService.GetProductAsync("tea", "green", 1, 3);
             var shipper = await _shipperService.AddShipperAsync("Arasaka", "+56363..");
             await _shipperService.UpdateShipperAsync(shipper, "Militech", "+56363..");
             await _shipperService.GetShipperAsync(shipper);
 
-            var supplier = await _supplierService.AddSupplierAsync("Militech", "Allo", "Ollo", "Mili", "some-adress", "Night-City", customer);
-            await _supplierService.UpdateSupplierAsync(supplier, "Arasaka", "Allo", "Ollo", "Mili", "some-adress", "Night-City", customer);
-            await _supplierService.GetSupplierAsync(supplier);
+            var payment = await _paymentService.AddPaymentAsync("card", "some_allowed");
+            await _paymentService.UpdatePaymentAsync(payment, "GooglePay", "some_allowed");
+            await _paymentService.GetPaymentAsync(payment);
 
             var order = await _orderService.AddOrderAsync(1, DateTime.Now, customer, payment, shipper);
             await _orderService.UpdateOrderAsync(order, 1, DateTime.UtcNow, customer, payment, shipper);
             await _orderService.GetOrderAsync(order);
 
             // await _orderService.GetOrderByCustomerIdAsync(customer);
-            // var product = await _productService.AddProductAsync("tea", "romashka", category, supplier);
+            var orderDetail = await _orderDetailsService.AddOrderDetailsAsync(order, product, "XL", "Green");
+            await _orderDetailsService.UpdateOrderDetailsAsync(orderDetail, order, product, "L", "Green");
+            await _orderDetailsService.GetOrderDetailsAsync(orderDetail);
 
-            // await _productService.AddProductAsync("tea", "gold", 1, 2);
-            // await _productService.AddProductAsync("tea", "green", 1, 3);
-
-            // await _orderDetailsService
-            // var orderDetail = await _orderDetailsService.
             Console.WriteLine("Done");
         }
     }
